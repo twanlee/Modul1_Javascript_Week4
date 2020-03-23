@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sum Odds</title>
+</head>
+<body>
+<script>
+    let length = Number(prompt('Mời nhập độ dài mảng'));
+    let array = [];
+    for ( i = 0; i < length; i++){
+        let a = Number(prompt('Mời nhập giá trị'));
+        array.push(a);
+    }
+    let sum = sumOdd(array);
+    document.write(sum);
+    function sumOdd(x) {
+        let sumOdd = 0;
+        for ( i= 0 ; i<x.length; i++){
+            if ( x[i] > 0){
+                sumOdd += x[i];
+            }
+        }
+        return sumOdd;
+    }
+</script>
+</body>
+</html>
