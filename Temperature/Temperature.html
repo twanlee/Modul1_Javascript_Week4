@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature</title>
+</head>
+<body>
+<script>
+    function Temperature(x){
+        this.x = x;
+        this.changeFtoC = function () {
+            return 5/9 * (this.x - 32);
+        };
+        this.changeCtoF = function () {
+            return 5/9*this.x + 32;
+        };
+    }
+    function processTemp() {
+        let a = Number(prompt('Mời nhập giá trị'));
+        let tempo = new Temperature(a);
+        document.write('Độ F sang C ' + tempo.changeFtoC() + '<br/>');
+        document.write('Độ C sang F ' + tempo.changeCtoF());
+    }
+    processTemp();
+
+
+</script>
+</body>
+</html>

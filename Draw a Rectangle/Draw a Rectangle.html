@@ -16,10 +16,10 @@
         this.x = x;
         this.y = y;
         this.getPer = function () {
-            return  2*x + 2*y;
+            return  2*(Number(this.x)+Number(this.y))
         };
         this.getArea = function() {
-            return x * y;
+            return this.x * this.y;
         }
     }
 
