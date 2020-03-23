@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rectangle</title>
+</head>
+<body>
+<input id="inputWidth" type="number"/>
+<input id="inputHeight" type="number"/>
+<input type="button" value="Show Rectangle" onclick="createRectangle()"/>
+<p id="result1"></p>
+<p id="result2"></p>
+<canvas id="myCanvas" width="600" height="600"></canvas>
+<script>
+    function Rectangle(x,y) {
+        this.x = x;
+        this.y = y;
+        this.getPer = function () {
+            return  2*x + 2*y;
+        };
+        this.getArea = function() {
+            return x * y;
+        }
+    }
+
+    function createRectangle() {
+        let x = document.getElementById('inputWidth').value;
+        let y = document.getElementById('inputHeight').value;
+        let ctx = document.getElementById('myCanvas').getContext('2d');
+        let rectangle = new Rectangle(x,y);
+        document.getElementById('result1').innerHTML = 'Chu vi Hình chữ nhật là: ' + rectangle.getPer();
+        document.getElementById('result2').innerHTML = 'Diện tích Hình chữ nhật là: ' + rectangle.getArea();
+        ctx.beginPath();
+        ctx.rect(50,50,rectangle.x,rectangle.y);
+        ctx.fill();
+    }
+</script>
+</body>
+</html>
