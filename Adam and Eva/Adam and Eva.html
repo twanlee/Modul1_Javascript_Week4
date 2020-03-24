@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adam and Eva</title>
+</head>
+<body>
+<script>
+    let Apple = function () {
+        this.weight = 10;
+        this.getWeight = function () {
+            return this.weight;
+        };
+        this.beingEeat = function () {
+            if (this.weight > 0) {
+                this.weight--;
+            }
+        };
+        this.isEmpty = function () {
+            if(this.weight > 0){
+                console.log('Let us have a party with the Apple ');
+            }else if (this.weight <=0){
+                console.log('End here')
+            }
+        };
+    };
+    let Human = function (name,gender,weight) {
+        this.name = name;
+        this.gender = gender;
+        this.weight = weight;
+       this.isMale = function () {
+           return this.gender;
+       };
+        this.eatApple = function (apple) {
+            apple.beingEeat();
+            this.weight ++;
+        };
+        this.saying = function (x) {
+            console.log(x)
+        };
+        this.getWeight = function () {
+            return this.weight;
+        }
+    };
+    let apple = new Apple();
+    let human1 = new Human('Adam',true,55);
+    let human2 = new Human('Eva',false,48);
+
+</script>
+</body>
+</html>
