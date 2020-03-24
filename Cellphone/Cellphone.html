@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobile Phone</title>
+</head>
+<body>
+<script>
+    let Mobile = function (name,battery, draft, inbox, sentBox,status) {
+        this.name = name;
+        this.battery = battery;
+        this.draft = draft;
+        this.inbox = inbox;
+        this.sentBox = sentBox;
+        this.status = status;
+
+        this.power = function () {
+            if (this.batery > 0)
+                this.status = !this.status;
+            else this.status = false;
+        };
+        this.chargePhone = function () {
+            this.battery = 100;
+        };
+        this.setDraft = function (x) {
+            if (this.status) {
+                this.draft = x;
+                this.battery--;
+            }
+        };
+        this.sentMessage = function (mobile) {
+            if (this.status) {
+                this.battery--;
+                this.sentBox.push(this.draft);
+                mobile.inbox.push(this.draft);
+                this.draft = '';
+            }
+        };
+    }
+    let nokia = new Mobile('8.1 Plus',100,'',[],[],true);
+    let iphone = new Mobile('iphone X',100,'',[],[],true);
+</script>
+</body>
+</html>
