@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remote and Television</title>
+</head>
+<body>
+<script>
+    let Tivi = function (name,chanel,volume,status) {
+        this.name = name;
+        this.chanel = chanel;
+        this.volume = volume;
+        this.status = status;
+        this.power = function () {
+            if (this.status) {
+                this.status = false;
+            } else if (this.status === false) {
+                this.status = true;
+            }
+        }
+        this.setVolume = function () {
+            if(this.status) {
+                if (this.volume === 0) {
+                    console.log('Muted')
+                } else if (this.volume >= 10) {
+                    console.log('Max')
+                }
+            }
+        }
+        this.getChanel = function (remo) {
+            if(this.status) {
+                remo.setChanel();
+            }
+        }
+    }
+    let Remote = function (name,number) {
+        this.name = name;
+        this.number = number;
+        this.setNumber = function () {
+           let x = [0,1,2,3,4,5,6,7,8,9];
+           let a = prompt('Nhập kênh');
+           this.number = x[a-1];
+        };
+        this.setChanel = function () {
+            switch (this.number) {
+                case 0:
+                    console.log('No copyright');
+                    break;
+                case 1:
+                    console.log('No copyright');
+                    break;
+                case 2:
+                    console.log('No copyright');
+                    break;
+                case 3:
+                    console.log('Netflix is streaming');
+                    break;
+                case 4:
+                    console.log('No copyright');
+                    break;
+                case 5:
+                    console.log('No copyright');
+                    break;
+                case 6:
+                    console.log('No copyright');
+                    break;
+                case 7:
+                    console.log('Apple Tive is on');
+                    break;
+                case 8:
+                    console.log('No copyright');
+                    break;
+                case 9:
+                    console.log('No copyright');
+                    break;
+                case 10:
+                    console.log('No copyright');
+                    break;
+            }
+        };
+        this.sutDown = function (tivi) {
+            tivi.power();
+        }
+        this.volumeUp = function (tivi) {
+            tivi.volume ++;
+            tivi.setVolume();
+        }
+        this.volumeDown = function (tivi) {
+            tivi.volume --;
+            tivi.setVolume();
+        }
+    }
+    let television = new Tivi('LG','',5,true);
+    let remo = new Remote('LG Remote','')
+</script>
+</body>
+</html>
