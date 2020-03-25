@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat and Mouse</title>
+</head>
+<body>
+<script>
+    let Mouse = function (name,weight,speed,status) {
+        this.name = name;
+        this.weight = weight;
+        this.speed = speed;
+        this.status = status;
+        this.sound = function () {
+            alert('chit chit');
+        }
+        this.beingEeated = function () {
+            this.status = false;
+        }
+    };
+    let Cat = function (name,weight,speed,status) {
+        this.name = name;
+        this.weight = weight;
+        this.speed = speed;
+        this.status = status;
+        this.sound = function () {
+            alert('Meo meo')
+        }
+        this.chasingMouse = function (mouse) {
+            if(this.speed > mouse.speed){
+                console.log('you die, a little rat.');
+                mouse.beingEeated();
+                this.weight += mouse.weight;
+            }else {
+                console.log('i am coming for you')
+            }
+        }
+    }
+    let mouse = new Mouse('Jerry',10,10,true);
+    let cat = new Cat('Tom',12,12,true);
+</script>
+</body>
+</html>
