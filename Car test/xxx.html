@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--<button onclick="driveACar.moveLeft()">left</button>-->
+<body onkeydown="moveCar(event)">
+<canvas id = "game" width="800" height="400" style="border: 1px; background-color: grey; position: absolute"></canvas>
+<script>
+    let Obstacle = function(x,y,radius) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.speed = 10;
+        this.getX = function () {
+            return this.x
+        }
+        this.getY = function () {
+            return this.y
+        }
+        this.getR = function () {
+            return this.radius
+        }
+        this.moveLeft = function () {
+            this.x -= this.speed
+        }
+        this.moveRight = function () {
+            this.x += this.speed
+        }
+    }
+    function randomeNumber() {
+        return Math.floor(Math.random() * 255)
+    }
+    function randomColor(r,g,b) {
+        r = randomeNumber()
+        g = randomeNumber()
+        b = randomeNumber()
+        return 'rgb(' + r+ ',' + g + ',' + b + ')';
+    }
+    const xBox = 800
+    const yBox = 400
+    let obstacles = new Obstacle(xBox, yBox, 20)
+    function drawObstacle(m,n) {
+        let a = document.getElementById('game').getContext('2d');
+        let x = m*obstacles.getX();
+        let y = n*obstacles.getY();
+        let color = randomColor()
+        a.beginPath()
+        a.arc(x,y,obstacles.getR(),0,2*Math.PI);
+        a.fillStyle = color;
+        a.fill()
+    }
+    function multiObstacle() {
+        drawObstacle(1, 0)
+        drawObstacle(1, 1)
+        drawObstacle(1, 0.5)
+    }
+    multiObstacle()
+    let DriveACar = function(img, top, left) {
+        this.img = img;
+        this.top = top;
+        this.left = left;
+        this.speed = 10;
+        this.test = '';
+        this.performance = function (c) {
+            let image = new Image()
+            let xPosition = this.left
+            let yPosition = this.top
+            image.onload = function () {
+                let c = document.getElementById('game');
+                ctx = c.getContext("2d")
+                ctx.drawImage(image, xPosition, yPosition)
+            }
+            image.src = this.img
+        }
+        this.zeroCanvas = function () {
+            let c = document.getElementById('game');
+            ctx = c.getContext("2d")
+            ctx.clearRect(0,0, c.offsetWidth, c.offsetHeight)
+        }
+        //     let c= document.getElementById('game');
+        //     let ctx = c.getContext("2d")
+        //     ctx.drawImage(image, this.left, this.right)
+        //      image.src = this.img
+        // }
+        //     // this.test = function (position,bol) {
+        //     //   return   'this.move' + position + ' = function () {this.' + position +  bol+ '= this.speed;this.zeroCanvas(); this.performance()}'
+        //     // }
+        this.moveTop = function () {
+            this.top -= this.speed;
+        }
+        this.moveDown = function () {
+            this.top+= this.speed;
+        }
+        this.moveLeft = function () {
+            this.left-= this.speed;
+        }
+        this.moveRight = function () {
+            this.left+= this.speed;
+        }
+    }
+    // let image = new carImage()
+    //     image.src = 'https://i.imgur.com/oyrzB7D.png'
+    let driveACar = new DriveACar('https://i.imgur.com/oyrzB7D.png',100,100)
+    driveACar.performance()
+    function zeroAll() {
+        let zero = document.getElementById("game")
+        let context = zero.getContext('2d')
+        context.clearRect(0,0,zero.offsetWidth,zero.offsetHeight)
+    }
+    function moveObstacle(){
+        zeroAll()
+        if(obstacles.getX()>0){
+            obstacles.moveLeft()
+        } else {
+            if(obstacles.getX() = yBox){
+                obstacles.moveRight()
+            }
+        }
+        driveACar.performance()
+        multiObstacle()
+        setTimeout(moveObstacle,200)
+    }
+    function moveCar(event) {
+        switch (event.keyCode) {
+            case 37:
+                zeroAll()
+                driveACar.moveLeft();
+                moveObstacle()
+                driveACar.performance();
+                break;
+            case 38:
+                zeroAll()
+                driveACar.moveTop();
+                moveObstacle()
+                driveACar.performance();
+                break;
+            case 39:
+                zeroAll()
+                driveACar.moveRight();
+                moveObstacle()
+                driveACar.performance();
+                break;
+            case 40:
+                zeroAll()
+                driveACar.moveDown();
+                moveObstacle()
+                driveACar.performance();
+                break;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Racing Car</title>
+</head>
+<body onkeydown="start()">
+<canvas id="myCanvas" height="700px" width="1368px" style="border: 1px solid beige"></canvas>
+<script>
+        const carX = 50;
+        const carY = 50;
+        const princessX = 1300;
+        const princessY = 350;
+        const speed = 10;
+        const widthMap = 1368;
+        const heightMap = 768;
+        const carUp = 'Car-up';
+        const carDown = 'Car-down';
+        const carRight = 'Car-right';
+        const carLeft = 'Car-left';
+        const c = document.getElementById('myCanvas');
+        const ctx = c.getContext('2d');
+let MyCar = function () {
+    this.carX = carX;
+    this.carY = carY;
+    this.princessX = princessX;
+    this.princessY = princessY;
+    this.speed = speed;
+    this.direction = carUp;
+    this.drawMap = function () {
+        let map = new Image();
+        map.src = 'Map.jpg';
+        ctx.drawImage(map, 0, 0);
+    };
+    this.drawPrincess = function () {
+        let princess = new Image();
+        princess.src = 'Princess.png';
+        ctx.drawImage(princess, this.princessX, this.princessY);
+    };
+    this.drawCar = function () {
+        let car = new Image();
+        car.src = this.direction + '.png';
+        ctx.drawImage(car, this.carX, this.carY);
+    };
+    this.clearMyCar = function () {
+        ctx.clearRect(0, 0, widthMap, heightMap);
+    };
+    this.carGoUp = function () {
+        this.direction = carUp;
+        this.carY -= this.speed;
+    };
+    this.carGoDown = function () {
+        this.direction = carDown;
+        this.carY += this.speed;
+    };
+    this.carGoLeft = function () {
+        this.direction = carLeft;
+        this.carX -= this.speed;
+    };
+    this.carGoRight = function () {
+        this.direction = carRight;
+        this.carX += this.speed;
+    };
+};
+let Obstacle = function(x,y,radius) {
+    this.x = x * Math.random();
+    this.y = y * Math.random();
+    this.radius = radius;
+    this.getHex = function getRandomHex() {
+        return Math.floor(Math.random() * 255);
+    };
+    this.getColor = function getRandomColor() {
+        let red = this.getHex();
+        let blue = this.getHex();
+        let green = this.getHex();
+        return 'rgb(' + red + ',' + blue + ',' + green + ')';
+    };
+    this.createObs = function createObst() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2* Math.PI);
+        ctx.fillStyle = this.getColor();
+        ctx.fill();
+
+    };
+};
+function multiObs(){
+    let ob1 = new Obstacle(50,50,50);
+    let ob2 = new Obstacle(200,200,50);
+    let ob3 = new Obstacle(600,600,50);
+    ob1.createObs();
+    ob2.createObs();
+    ob3.createObs();
+}
+let game = new MyCar();
+function moveGame(event) {
+    switch (event.keyCode) {
+        case 37:
+            game.carGoLeft();
+            break;
+        case 38:
+            game.carGoUp();
+            break;
+        case 39:
+            game.carGoRight();
+            break;
+        case 40:
+            game.carGoDown();
+            break;
+    }
+    game.clearMyCar();
+    game.drawMap();
+    game.drawPrincess();
+    game.drawCar();
+    multiObs();
+}
+function start() {
+        window.addEventListener('keydown',moveGame);
+        if(game.carX === game.princessX && game.carY === game.princessY){
+            alert('You have save Princess');
+        }else if (game.carX === ob1.x && game.carY ===circle.y){
+            alert('You lose');
+        }
+}
+
+
+</script>
+</body>
+</html>

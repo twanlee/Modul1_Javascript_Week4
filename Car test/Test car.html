@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phi công trẻ bắt bà già</title>
+</head>
+<body onkeydown="Run()" >
+<canvas id="jetgame" height="700px" width="1368px" style="border: 1px solid mediumaquamarine"></canvas>
+<script>
+    const jetPositionX = 550;
+    const jetPositionY = 30;
+    const bigPositionX = 500;
+    const bigPositionY = 500;
+    const mapWidth = 1368;
+    const mapHeight = 768;
+    const speed = 20;
+    const directionUp = "maybaylen";
+    const directionDown = "maybayxuong";
+    const directionLeft = "maybaytrai";
+    const directionRight = "maybayphai";
+    const c = document.getElementById("jetgame");
+    const ctx = c.getContext("2d");
+    let Jet = function () {
+        this.jetPositionX = jetPositionX;
+        this.jetPositionY = jetPositionY;
+        this.speed = speed;
+        this.direction = directionUp;
+        this.bigPositionX = bigPositionX*Math.random();
+        this.bigPositionY = bigPositionY*Math.random();
+        this.drawMap = function () {
+            let img = new Image();
+            img.src = "map.jpg";
+            ctx.drawImage(img, 0, 0);
+        };
+        this.drawBig = function () {
+            let img = new Image();
+            img.src = "bagia.jpg";
+            ctx.drawImage(img, this.bigPositionX, this.bigPositionY);
+        };
+        this.drawJet = function () {
+            let img = new Image();
+            img.src = this.direction + ".jpg";
+            ctx.drawImage(img, this.jetPositionX, this.jetPositionY);
+        };
+        this.clearJet = function () {
+            ctx.clearRect(0, 0, mapWidth, mapHeight);
+        };
+        this.jetGoUp = function () {
+            this.direction = directionUp;
+            this.jetPositionY -= this.speed;
+        };
+        this.jetGoDown = function () {
+            this.direction = directionDown;
+            this.jetPositionY += this.speed;
+            console.log(this.jetPositionY);
+        };
+        this.jetGoLeft = function () {
+            this.direction = directionLeft;
+            this.jetPositionX -= this.speed;
+        };
+        this.jetGoRight = function () {
+            this.direction = directionRight;
+            this.jetPositionX += this.speed;
+        };
+    };
+    let jet = new Jet();
+
+
+    function moveJet(event) {
+        switch (event.keyCode) {
+            case 37: {
+                jet.jetGoLeft();
+                break;
+            }
+            case 38: {
+                jet.jetGoUp();
+                break;
+            }
+            case 39: {
+                jet.jetGoRight();
+                break;
+            }
+            case 40: {
+                jet.jetGoDown();
+            }
+        }
+        jet.clearJet();
+        jet.drawMap();
+        jet.drawBig();
+        jet.drawJet();
+    }
+
+    function Run() {
+        window.addEventListener('keydown', this.moveJet);
+        if ( jet.jetPositionX + jet.speed > jet.bigPositionX - 100 && jet.jetPositionX + jet.speed < jet.bigPositionX + 100)
+            if (jet.jetPositionY + jet.speed > jet.bigPositionY - 100 && jet.jetPositionY + jet.speed < jet.bigPositionY + 100)
+                alert("Chúc mừng chàng phi công trẻ đã chinh phục được bà già")
+    }
+</script>
+</body>
+</html>
