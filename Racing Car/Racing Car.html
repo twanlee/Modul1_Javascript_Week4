@@ -83,14 +83,15 @@ let Obstacle = function(x,y,radius) {
 
     };
 };
-function multiObs(){
+
     let ob1 = new Obstacle(50,50,50);
     let ob2 = new Obstacle(200,200,50);
     let ob3 = new Obstacle(600,600,50);
     ob1.createObs();
     ob2.createObs();
     ob3.createObs();
-}
+    setTimeout(ob1,3000);
+
 let game = new MyCar();
 function moveGame(event) {
     switch (event.keyCode) {
@@ -111,13 +112,13 @@ function moveGame(event) {
     game.drawMap();
     game.drawPrincess();
     game.drawCar();
-    multiObs();
 }
 function start() {
         window.addEventListener('keydown',moveGame);
+        multiObs();
         if(game.carX === game.princessX && game.carY === game.princessY){
             alert('You have save Princess');
-        }else if (game.carX === ob1.x && game.carY ===circle.y){
+        }else if (game.carX === ob1.x && game.carY ===ob1.y){
             alert('You lose');
         }
 }

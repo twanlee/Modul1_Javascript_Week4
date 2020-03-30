@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game cờ caro</title>
+
+</head>
+
+<body onclick="check_toWin(checker)">
+<style>
+    td{
+
+        width: 30px;
+        height: 30px;
+    }
+</style>
+<div id="gamecocaro"></div>
+<script>
+    let flag = true;
+    let checker = new Array('');
+    let Carogame = function (rows,cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.drawCaroField = function () {
+            board = '<table width="' + this.cols*30 + 'px" height="' + this.rows*30 + 'px"' +
+                ' border="1" cellspacing="0" cellpadding="0"   style="position: absolute;">';
+            for (let i = 0; i < this.cols; i++) {
+                board += '<tr>';
+                for (let j = 0; j < this.rows; j++) {
+                    board += '<td onclick="play(this)" id="'+i+','+j+'" align="center"></td>'
+                }
+                board += '</tr>'
+            }
+            board += '</table>';
+            document.getElementById("gamecocaro").innerHTML = board;
+        };
+    };
+
+    let board = new Carogame(20,20);
+    board.drawCaroField();
+    function play(cell) {
+        if (flag === true) {
+            cell.innerHTML = "X";
+            flag = false
+        } else {
+            cell.innerHTML = "O";
+            flag = true
+        }
+
+        for (i = 0; i < 20; i++) {
+            checker[i] = new Array('');
+            for (j = 0; j < 20; j++) {
+                checker[i][j] = document.getElementById(i + ',' + j).innerHTML;
+            }
+        }
+    }
+    function check_toWin(array) {
+        let flag1 = false;flag2 = false;
+        for ( i=0;i<20;i++){
+            for (j=0;j<20;j++){
+                if ( array[i][j] === "X" && array[i+1][j+1] === "X" && array[i+2][i+2] === "X"
+                    && array[i+3][j+3] === "X" && array[i+4][j+4] === "X" ) flag1 = true ;
+                else if ( array[i][j] === "X" && array[i][j+1] === "X" && array[i][j+2] === "X"
+                    && array[i][j+3] === "X" && array[i][j+4] === "X" ) flag1 = true;
+                else if (array[i][j] === "X" && array[i+1][j] === "X" && array[i+2][j] === "X"
+                    && array[i+3][j] === "X" && array[i+4][j] === "X" ) flag1 = true;
+                else if (array[i][j] === "O" && array[i+1][j+1] === "O" && array[i+2][i+2] === "O"
+                    && array[i+3][j+3] === "O" && array[i+4][j+4] === "O" ) flag2 = true;
+                else if (array[i][j] === "O" && array[i][j+1] === "O" && array[i][j+2] === "O"
+                    && array[i][j+3] === "O" && array[i][j+4] === "O") flag2 = true;
+                else if (array[i][j] === "O" && array[i+1][j] === "O" && array[i+2][j] === "O"
+                    && array[i+3][j] === "O" && array[i+4][j] === "O")flag2 = true;
+            }
+        }
+        if (flag1 === true)  alert("X player is WIN"); else  if ( flag2 === true) alert("O player is WIN")
+
+
+    }
+</script>
+</body>
+</html>
