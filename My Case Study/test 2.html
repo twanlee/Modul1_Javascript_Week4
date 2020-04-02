@@ -2,9 +2,190 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Asteroids</title>
 </head>
 <body>
-$END$
+<div id = 'container'>
+    <center><canvas id="myCanvas" height="700" width="700"> </canvas></center>
+</div>
+<script>
+    let canvas = document.getElementById('myCanvas');
+    let ctx = canvas.getContext('2d');
+    const FPS = 60;
+    const SHIP_SIZE =40;
+    let balls = [];
+    let lazers = [];
+    const LAZER_MAX = 20;
+    let ship = {
+        x:  canvas.width / 2,
+        y: canvas.height-30,
+        r : SHIP_SIZE/2,
+        a: 90/180*Math.PI,
+        speed: 300,
+    };
+    setInterval(start,1000/FPS);
+    function start(){
+        document.addEventListener('keydown',keyDown);
+        update();
+    }start();
+
+
+    function keyDown(evt) {
+        switch (evt.keyCode) {
+            case 37:
+                ship.x -= ship.speed / FPS;
+                thrust();
+                break;
+            case 38:
+                lazerUpdate();
+                break;
+            case 39:
+                ship.x += ship.speed / FPS;
+                thrust();
+                break;
+        }
+    }
+    function thrust() {
+        ctx.fillStyle = 'red';
+        ctx.strokeStyle = 'yellow';
+        ctx.lineWidth = SHIP_SIZE /10;
+        ctx.beginPath();
+        ctx.moveTo(
+            ship.x+ship.r*Math.cos(ship.a),
+            ship.y-ship.r*Math.sin(ship.a),
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) + Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) - Math.cos(ship.a))
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) - Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) + Math.cos(ship.a))
+        );
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    function update() {
+        let height = 200 * Math.cos(Math.PI / 6);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0,canvas.width, canvas.height);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = SHIP_SIZE /20;
+        ctx.beginPath();
+        ctx.moveTo(
+            ship.x + ship.r*Math.cos(ship.a),
+            ship.y - ship.r*Math.sin(ship.a),
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) + Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) - Math.cos(ship.a))
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) - Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) + Math.cos(ship.a))
+        );
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(ship.x-1, ship.y-1, 2,2);
+
+        if(ship.x<0-ship.r){
+            ship.x = canvas.width + ship.r;
+        }else if(ship.x > canvas.width + ship.r){
+            ship.x = 0-ship.r;
+        }
+    }
+    //bóng
+    function Obs() {
+        this.x = Math.random() * canvas.width;
+        this.y= Math.random() * canvas.height-60;
+        this.radius = Math.floor(Math.random() * 40)+10;
+        this.spdX = 2;
+        this.spdY = 2;
+    }
+    Obs.prototype.draw = function () {
+        function getRandomHex(){
+            return Math.floor(Math.random()*255);
+        }
+        function getRandomColor(){
+            let red = getRandomHex();
+            let green = getRandomHex();
+            let blue = getRandomHex();
+            return "rgb(" + red + "," + blue + "," + green +")";
+        }
+        let color = getRandomColor();
+        ctx.beginPath();
+        ctx.strokeStyle = 'gray';
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.stroke();
+    };
+    Obs.prototype.move = function(){
+        this.x += this.spdX;
+        this.y += this.spdY;
+    };
+    Obs.prototype.checkCollision = function(){
+        if(this.x+this.radius >= canvas.width || this.x+this.radius <=0){
+            this.spdX =- this.spdX;
+        } if(this.y+this.radius >= canvas.height-60 || this.y+this.radius <=0){
+            this.spdY =- this.spdY;
+        }
+    };
+    let ball = new Obs();
+    setInterval('obsUpdate()', 1000/FPS);
+    function obsUpdate() {
+        for(let i =0; i < 30; i++) {
+            balls.push(new Obs());
+            balls[i].draw();
+            balls[i].move();
+            balls[i].checkCollision();
+        }
+    }
+
+    var maxBullets=10;
+    var allBullets=[];//a array for objects
+    let bullet = new bullet();
+    function bullet(){
+        this.vx=0;
+        this.vy=0;
+        this.inix=0;
+        this.iniy=0;
+        this.angleGrads=0;
+        this.angleRads=1.0;
+        this.active=false;
+    }
+    bullet.prototype.exist=function(){
+        //this.inix+=mathsin.bla,bla.bla.bla  bla
+        if(this.x > canvas.width){
+            //kill this bullet
+            this.active=false;
+        }
+    }
+    bullet.prototype.draw=function(){
+        //ctx.draw bla, bla, bla
+    }
+    function newBullets(){
+        for(i=1;i<=maxBullets;i++){
+            allBullets[i]=new bullet();
+        }
+    }
+
+
+    function operations(){
+        for(i=1;i<=maxBullets;i++){
+            if(allBullets[i].active){
+                allBullets[i].exist();
+            }
+        }
+    }
+    function paint(){
+        for(i=1;i<=maxBullets;i++){
+            if(allBullets[i].active){
+                allBullets[i].draw();
+            }
+        }
+    }//end
+</script>
 </body>
 </html>

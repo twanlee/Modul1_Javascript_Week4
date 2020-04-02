@@ -2,9 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Asteroids</title>
 </head>
 <body>
-$END$
+<div id = 'container'>
+   <center><canvas id="myCanvas" height="700" width="700"> </canvas></center>
+</div>
+<script>
+    let canvas = document.getElementById('myCanvas');
+    let ctx = canvas.getContext('2d');
+    const FPS = 60;
+    const ROIDS_NUM = 3;
+    const ROIDS_SIZE = 100;
+    const ROIDS_VERT = 10;
+    const ROIDS_SPD = 50;
+    const SHIP_SIZE =40;
+    setInterval(update,1000/FPS);
+    let ship = {
+        x:  canvas.width / 2,
+        y: canvas.height-30,
+        r : SHIP_SIZE/2,
+        a: 90/180*Math.PI,
+        speed: 200,
+    };
+    let roids = [];
+    createAsteroidBelt();
+    function createAsteroidBelt(){
+        let roids = [];
+        let x,y;
+        for(i=0; i<ROIDS_NUM; i++){
+            x = Math.floor(Math.random()*canvas.width);
+            y = Math.floor(Math.random()*canvas.height);
+            roids.push(newAsteroid(x,y));
+        }
+    }
+
+    document.addEventListener('keydown',keyDown);
+    function keyDown(evt) {
+        switch (evt.keyCode) {
+            case 37:
+                ship.x -= ship.speed / FPS;
+                thrust();
+                break;
+            case 38:
+
+                break;
+            case 39:
+                ship.x += ship.speed / FPS;
+                thrust();
+                break;
+        }
+    }
+    function newAsteroid(x,y) {
+        let roid = {
+            x: x,
+            y: y,
+            xv: Math.random()* ROIDS_SPD/FPS *(Math.random()<0.5 ? 1 : -1),
+            yv: Math.random()* ROIDS_SPD/FPS *(Math.random()<0.5 ? 1 : -1),
+            r : ROIDS_SIZE / 2,
+            a: Math.random()*Math.PI*2,
+            vert: Math.floor(Math.random() * (ROIDS_VERT +1) + ROIDS_VERT / 2),
+        };
+        return roid;
+    }
+    function thrust() {
+        ctx.fillStyle = 'red';
+        ctx.strokeStyle = 'yellow';
+        ctx.lineWidth = SHIP_SIZE /10;
+        ctx.beginPath();
+        ctx.moveTo(
+            ship.x+ship.r*Math.cos(ship.a),
+            ship.y-ship.r*Math.sin(ship.a),
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) + Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) - Math.cos(ship.a))
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) - Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) + Math.cos(ship.a))
+        );
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    function update() {
+        let height = 200 * Math.cos(Math.PI / 6);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0,canvas.width, canvas.height);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = SHIP_SIZE /20;
+        ctx.beginPath();
+        ctx.moveTo(
+            ship.x + ship.r*Math.cos(ship.a),
+            ship.y - ship.r*Math.sin(ship.a),
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) + Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) - Math.cos(ship.a))
+        );
+        ctx.lineTo(
+            ship.x-ship.r*(Math.cos(ship.a) - Math.sin(ship.a)),
+            ship.y+ship.r*(Math.sin(ship.a) + Math.cos(ship.a))
+        );
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(ship.x-1, ship.y-1, 2,2);
+
+        if(ship.x<0-ship.r){
+            ship.x = canvas.width + ship.r;
+        }else if(ship.x > canvas.width + ship.r){
+            ship.x = 0-ship.r;
+        }
+        ctx.strokeStyle = 'slategrey';
+        ctx.lineWidth = SHIP_SIZE / 20;
+        let x,y,r,a,vert;
+        for( i=0; i<roids.length; i++){
+            x = roids[i].x;
+            y = roids[i].y;
+            r = roids[i].r;
+            a = roids[i].a;
+            vert = roids[i].vert;
+            ctx.beginPath();
+            ctx.moveTo(
+                x + r * Math.cos(a),
+                y + r * Math.sin(a),
+            );
+            for( j=0; j<vert; j++){
+                ctx.lineTo(
+                    x +r * Math.cos(a + j*Math.PI*2/vert),
+                    y +r * Math.sin(a + j*Math.PI*2/vert),
+                );
+            }
+        }ctx.closePath();
+        ctx.stroke();
+
+    }
+</script>
 </body>
 </html>
